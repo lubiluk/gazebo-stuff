@@ -5,7 +5,8 @@ include_directories(${GAZEBO_INCLUDE_DIRS})
 link_directories(${GAZEBO_LIBRARY_DIRS})
 list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
 
-add_library(swing SHARED swing.cc)
-target_link_libraries(swing ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
+add_library(SwingPlugin SHARED SwingPlugin.cc)
+target_link_libraries(SwingPlugin ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
 
-set_property(TARGET swing PROPERTY CXX_STANDARD 14)
+set_property(TARGET SwingPlugin PROPERTY CXX_STANDARD 14)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wextra")

@@ -16,7 +16,7 @@
         <include>
             <uri>model://knife</uri>
             <pose>-0.305 0.974 1.062 -1.57746 0.148233 -0.000983</pose>
-            <plugin name="swing" filename="libswing.so"/>
+            <plugin name="swing" filename="libSwingPlugin.so"/>
         </include>
 
         <gui>
