@@ -1,0 +1,34 @@
+<sdf version="1.4">
+    <world name="default">
+        <include>
+             <uri>model://sun</uri>
+        </include>
+
+        <include>
+            <uri>model://ground_plane</uri>
+        </include>
+
+        <include>
+            <uri>model://table</uri>
+            <pose>-0.071633 0.854817 0 0 0 -1.57694</pose>
+        </include>
+
+        <include>
+            <uri>model://knife</uri>
+            <pose>-0.305 0.974 1.062 -1.57746 0.148233 -0.000983</pose>
+            <plugin name="swing" filename="libswing.so"/>
+        </include>
+
+        <gui>
+        <camera name='user_camera'>
+            <pose>1.580 1.861 1.718 -1.4918e-17 0.375643 -2.675</pose>
+            <view_controller>orbit</view_controller>
+        </camera>
+        </gui>
+
+	<plugin name="butter" filename="libbutter.so">
+		<pose>-0.128 1.059 1.036 0 0 0</pose>
+		<size>5 10 3 0.005</size>
+	</plugin>
+    </world>
+</sdf>

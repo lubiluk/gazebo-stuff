@@ -1,0 +1,21 @@
+<?xml version='1.0'?>
+<sdf version="1.4">
+<model name="knife">
+  <pose>0 0 0 0 0 0</pose>
+    <link name="knife">
+      <inertial>
+        <mass>1.0</mass>
+      </inertial>
+      <collision name='tool_collision'>
+	      <geometry>
+		      <mesh><uri>model://knife/knife.dae</uri></mesh>
+	      </geometry>
+	    </collision>
+	    <visual name='tool_visual'>
+		    <geometry>
+			    <mesh><uri>model://knife/knife.dae</uri></mesh>
+		    </geometry>
+	    </visual>
+    </link>
+  </model>
+</sdf>
