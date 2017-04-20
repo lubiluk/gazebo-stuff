@@ -16,7 +16,7 @@ class SwingPlugin : public ModelPlugin
 
         // create the animation
         gazebo::common::PoseAnimationPtr anim(
-                new gazebo::common::PoseAnimation("swing", 6.0, false));
+                new gazebo::common::PoseAnimation("swing", 4.0, false));
 
         gazebo::common::PoseKeyFrame *key;
 

@@ -28,19 +28,24 @@ namespace gazebo {
 
             stringstream xml;
 
-            xml << "<sdf version ='1.4'>";
-            xml << "<model name ='butter'>";
-            xml << "<pose>" << poseArg << "</pose>";
+            xml << "<sdf version ='1.4'>"
+                   "<model name ='butter'>"
+                   "<pose>" << poseArg << "</pose>";
 
             double xShift = -xlen * radius;
             double yShift = -ylen * radius;
             double zShift = -zlen * radius;
 
+            // Force at which the butter particles should break apart
+            string force = "0.05";
+
             // Create links
             for (int i = 0; i < xlen; ++i) {
                 for (int j = 0; j < ylen; ++j) {
                     for (int k = 0; k < zlen; ++k) {
-                        xml << "<link name='link_" << i << "_" << j << "_" << k << "'>"
+                        string index = to_string(i) + "_" + to_string(j) + "_" + to_string(k);
+
+                        xml << "<link name='link_" << index << "'>"
                                     "<pose>" << radius * 2 * i + xShift << " " << radius * 2 * j + yShift << " " << radius * 2 * k + zShift << " 0 0 0</pose>"
                                     "<inertial>"
                                         "<mass>0.003</mass>"
@@ -66,7 +71,7 @@ namespace gazebo {
                                             "</contact>"
                                         "</surface>"
                                     "</collision>"
-                                    "<visual name ='visual_" << i << "_" << j << "_" << k << "'>"
+                                    "<visual name ='visual_" << index << "'>"
                                         "<geometry>"
                                             "<sphere>"
                                                 "<radius>" << radius << "</radius>"
@@ -79,6 +84,13 @@ namespace gazebo {
                                             "</script>"
                                         "</material>"
                                     "</visual>"
+                                    "<sensor name='contact_" << index << "' type='contact'>"
+                                        "<contact>"
+                                            "<collision>collision_" << index << "</collision>"
+                                        "</contact>"
+                                        "<plugin name='sticky' filename='libStickyPlugin.so'></plugin>"
+                                    "</sensor>"
+                                    "<self_collide>true</self_collide>"
                                 "</link>";
                     }
                 }
@@ -89,7 +101,6 @@ namespace gazebo {
                 for (int j = 0; j < ylen; ++j) {
                     for (int k = 0; k < zlen; ++k) {
                         string current = to_string(i) + "_" + to_string(j) + "_" + to_string(k);
-                        string force = "0.5";
 
                         if (i > 0) {
                             string previous = to_string(i-1) + "_" + to_string(j) + "_" + to_string(k);
@@ -112,8 +123,8 @@ namespace gazebo {
                 }
             }
 
-            xml << "</model>";
-            xml << "</sdf>";
+            xml << "</model>"
+                    "</sdf>";
 
             sdf::SDF butterSDF;
             butterSDF.SetFromString(xml.str());

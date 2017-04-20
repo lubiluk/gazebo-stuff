@@ -15,7 +15,7 @@
 
         <include>
             <uri>model://knife</uri>
-            <pose>-0.305 0.974 1.062 -1.57746 0.148233 -0.000983</pose>
+            <pose>-0.305 0.974 1.082 -1.57746 0.148233 -0.000983</pose>
             <plugin name="swing" filename="libSwingPlugin.so"/>
         </include>
 
@@ -26,9 +26,9 @@
         </camera>
         </gui>
 
-	<plugin name="butter" filename="libbutter.so">
+	<plugin name="butter" filename="libButterFactoryPlugin.so">
 		<pose>-0.128 1.059 1.036 0 0 0</pose>
-		<size>5 10 3 0.005</size>
+		<size>3 2 3 0.005</size>
 	</plugin>
     </world>
 </sdf>
