@@ -1,7 +1,7 @@
 # Exclude binary plugins
-plugins_lib
 build
 cmake-build-debug
+cmake-build-release
 
 ### C++ ###
 # Prerequisites

@@ -36,6 +36,7 @@ namespace gazebo {
             double yShift = -ylen * radius;
             double zShift = -zlen * radius;
 
+            // Create links
             for (int i = 0; i < xlen; ++i) {
                 for (int j = 0; j < ylen; ++j) {
                     for (int k = 0; k < zlen; ++k) {
@@ -83,6 +84,7 @@ namespace gazebo {
                 }
             }
 
+            // Create joints
             for (int i = 0; i < xlen; ++i) {
                 for (int j = 0; j < ylen; ++j) {
                     for (int k = 0; k < zlen; ++k) {
@@ -92,88 +94,19 @@ namespace gazebo {
                         if (i > 0) {
                             string previous = to_string(i-1) + "_" + to_string(j) + "_" + to_string(k);
 
-                            xml << "<joint name=\"joint_" << current << "_" << previous << "\" type=\"revolute\">\
-                                    <parent>link_" << current << "</parent>\
-                                    <child>link_" << previous << "</child>\
-                                    <axis>\
-                                        <xyz>0 0 1</xyz>\
-                                        <limit>\
-                                        <lower>0.0</lower>\
-                                        <upper>0.0</upper>\
-                                        </limit>\
-                                    </axis>\
-                                    <physics>\
-                                        <ode>\
-                                            <erp>1</erp>\
-                                            <cfm>1</cfm>\
-                                        </ode>\
-                                    </physics>\
-                                    <sensor name=\"force_torque\" type=\"force_torque\">\
-                                          <always_on>true</always_on>\
-                                          <update_rate>1000</update_rate>\
-                                          <plugin name=\"breakable_0_0\" filename=\"libBreakableJointPlugin.so\">\
-                                                <breaking_force_N>" << force << "</breaking_force_N>\
-                                          </plugin>\
-                                    </sensor>\
-                               </joint>";
+                            xml << GetBreakableJointString(current, previous, force);
                         }
 
                         if (j > 0) {
                             string previous = to_string(i) + "_" + to_string(j-1) + "_" + to_string(k);
 
-                            xml << "<joint name=\"joint_" << current << "_" << previous << "\" type=\"revolute\">\
-                                    <parent>link_" << current << "</parent>\
-                                    <child>link_" << previous << "</child>\
-                                    <axis>\
-                                        <xyz>0 0 1</xyz>\
-                                        <limit>\
-                                        <lower>0.0</lower>\
-                                        <upper>0.0</upper>\
-                                        </limit>\
-                                    </axis>\
-                                    <physics>\
-                                        <ode>\
-                                            <erp>1</erp>\
-                                            <cfm>1</cfm>\
-                                        </ode>\
-                                    </physics>\
-                                    <sensor name=\"force_torque\" type=\"force_torque\">\
-                                          <always_on>true</always_on>\
-                                          <update_rate>1000</update_rate>\
-                                          <plugin name=\"breakable_0_0\" filename=\"libBreakableJointPlugin.so\">\
-                                                <breaking_force_N>" << force << "</breaking_force_N>\
-                                          </plugin>\
-                                    </sensor>\
-                               </joint>";
+                            xml << GetBreakableJointString(current, previous, force);
                         }
 
                         if (k > 0) {
                             string previous = to_string(i) + "_" + to_string(j) + "_" + to_string(k-1);
 
-                            xml << "<joint name=\"joint_" << current << "_" << previous << "\" type=\"revolute\">\
-                                    <parent>link_" << current << "</parent>\
-                                    <child>link_" << previous << "</child>\
-                                    <axis>\
-                                        <xyz>0 0 1</xyz>\
-                                        <limit>\
-                                        <lower>0.0</lower>\
-                                        <upper>0.0</upper>\
-                                        </limit>\
-                                    </axis>\
-                                    <physics>\
-                                        <ode>\
-                                            <erp>1</erp>\
-                                            <cfm>1</cfm>\
-                                        </ode>\
-                                    </physics>\
-                                    <sensor name=\"force_torque\" type=\"force_torque\">\
-                                          <always_on>true</always_on>\
-                                          <update_rate>1000</update_rate>\
-                                          <plugin name=\"breakable_0_0\" filename=\"libBreakableJointPlugin.so\">\
-                                                <breaking_force_N>" << force << "</breaking_force_N>\
-                                          </plugin>\
-                                    </sensor>\
-                               </joint>";
+                            xml << GetBreakableJointString(current, previous, force);
                         }
                     }
                 }
@@ -186,6 +119,36 @@ namespace gazebo {
             butterSDF.SetFromString(xml.str());
 
             parent->InsertModelSDF(butterSDF);
+        }
+
+        string GetBreakableJointString(string linkName1, string linkName2, string force) {
+            stringstream ss;
+            ss << "<joint name=\"joint_" << linkName1 << "_" << linkName2 << "\" type=\"revolute\">\
+                        <parent>link_" << linkName1 << "</parent>\
+                        <child>link_" << linkName2 << "</child>\
+                        <axis>\
+                            <xyz>0 0 1</xyz>\
+                            <limit>\
+                                <lower>0.0</lower>\
+                                <upper>0.0</upper>\
+                            </limit>\
+                        </axis>\
+                        <physics>\
+                            <ode>\
+                                <erp>1</erp>\
+                                <cfm>1</cfm>\
+                            </ode>\
+                        </physics>\
+                        <sensor name=\"force_torque\" type=\"force_torque\">\
+                              <always_on>true</always_on>\
+                              <update_rate>1000</update_rate>\
+                              <plugin name=\"breakable_0_0\" filename=\"libBreakableJointPlugin.so\">\
+                                    <breaking_force_N>" << force << "</breaking_force_N>\
+                              </plugin>\
+                        </sensor>\
+                   </joint>";
+
+            return ss.str();
         }
     };
 
