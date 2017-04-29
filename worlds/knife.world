@@ -13,17 +13,27 @@
             <pose>-0.071633 0.854817 0 0 0 -1.57694</pose>
         </include>
 
+	<include>
+            <uri>model://bowl</uri>
+            <pose>-0.135836 0.721834 1.032507 -0.000026 -0.000068 0</pose>
+        </include>
+
         <include>
             <uri>model://knife</uri>
             <pose>-0.305 0.974 1.082 -1.57746 0.148233 -0.000983</pose>
-            <plugin name="swing" filename="libSwingPlugin.so"/>
+	    <plugin name="swing" filename="libSwingPlugin.so"/>
+        </include>
+
+	<include>
+            	<uri>model://gripper</uri>
+            	<pose>-0.390739 0.974266 1.131381 0 0 0</pose>
         </include>
 
         <gui>
-        <camera name='user_camera'>
-            <pose>1.580 1.861 1.718 -1.4918e-17 0.375643 -2.675</pose>
-            <view_controller>orbit</view_controller>
-        </camera>
+		<camera name='user_camera'>
+			<pose>0.892691 1.54384 1.57989 -1.4918e-17 0.375643 -2.675</pose>
+			<view_controller>orbit</view_controller>
+		</camera>
         </gui>
 
 	<plugin name="butter" filename="libButterFactoryPlugin.so">

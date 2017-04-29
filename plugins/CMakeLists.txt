@@ -15,5 +15,8 @@ target_link_libraries(ButterFactoryPlugin ${GAZEBO_LIBRARIES})
 add_library(SwingPlugin SHARED SwingPlugin.cc)
 target_link_libraries(SwingPlugin ${GAZEBO_LIBRARIES})
 
-add_library(StickyPlugin SHARED StickyPlugin.cc)
-target_link_libraries(StickyPlugin ${GAZEBO_LIBRARIES})
+add_library(ButterPlugin SHARED ButterPlugin.cc)
+target_link_libraries(ButterPlugin ${GAZEBO_LIBRARIES})
+
+add_library(GripPlugin SHARED GripPlugin.cc)
+target_link_libraries(GripPlugin ${GAZEBO_LIBRARIES})
