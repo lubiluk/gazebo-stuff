@@ -17,27 +17,27 @@ void SwingPlugin::Load(physics::ModelPtr parent, sdf::ElementPtr /*sdf*/)
 
     gazebo::common::PoseKeyFrame *key;
 
-    math::Vector3 pos = parent->GetWorldPose().pos;
-    math::Quaternion rot = parent->GetWorldPose().rot;
+    auto pos = parent->GetWorldPose().pos.Ign();
+    auto rot = parent->GetWorldPose().rot.Ign();
 
     // set starting location of the box
     key = anim->CreateKeyFrame(0);
-    key->SetTranslation(pos);
-    key->SetRotation(rot);
+    key->Translation(pos);
+    key->Rotation(rot);
 
     // set waypoint location after 1 seconds
     key = anim->CreateKeyFrame(2.0);
-    key->SetTranslation(pos + math::Vector3(0, 0.10, 0.0));
-    key->SetRotation(rot);
+    key->Translation(pos + ignition::math::Vector3d(0.0, 0.10, 0.0));
+    key->Rotation(rot);
 
 
     key = anim->CreateKeyFrame(4.0);
-    key->SetTranslation(pos + math::Vector3(0, 0.15, 0.1));
-    key->SetRotation(rot);
+    key->Translation(pos + ignition::math::Vector3d(0.0, 0.15, 0.1));
+    key->Rotation(rot);
 
     key = anim->CreateKeyFrame(6.0);
-    key->SetTranslation(pos + math::Vector3(0, -0.20, 0.15));
-    key->SetRotation(rot);
+    key->Translation(pos + ignition::math::Vector3d(0.0, -0.20, 0.15));
+    key->Rotation(rot);
 //
 //        key = anim->CreateKeyFrame(8.0);
 //        key->SetTranslation(math::Vector3(-0.854600, 1.156014, 0.824962));

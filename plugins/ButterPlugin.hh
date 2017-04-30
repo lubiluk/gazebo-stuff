@@ -25,7 +25,8 @@ namespace gazebo {
 
         /// \brief The current contacts.
         private: std::vector<msgs::Contact> contacts;
-        /// \brief The current joints.
+        /* \brief The current joints. Gazebo doesn't track added or removed joints,
+         * so this plugin tracks them on its own. */
         private: std::vector<physics::JointPtr> joints;
         /// \brief Pointer to the world.
         private: physics::WorldPtr world;

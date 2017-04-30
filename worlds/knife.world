@@ -1,7 +1,15 @@
 <sdf version="1.4">
     <world name="default">
+
+        <physics type='ode'>
+            <max_step_size>0.001</max_step_size>
+            <real_time_factor>1</real_time_factor>
+            <real_time_update_rate>1000</real_time_update_rate>
+            <gravity>0 0 -9.8</gravity>
+        </physics>
+
         <include>
-             <uri>model://sun</uri>
+            <uri>model://sun</uri>
         </include>
 
         <include>
@@ -13,7 +21,7 @@
             <pose>-0.071633 0.854817 0 0 0 -1.57694</pose>
         </include>
 
-	<include>
+        <include>
             <uri>model://bowl</uri>
             <pose>-0.135836 0.721834 1.032507 -0.000026 -0.000068 0</pose>
         </include>
@@ -21,24 +29,28 @@
         <include>
             <uri>model://knife</uri>
             <pose>-0.305 0.974 1.082 -1.57746 0.148233 -0.000983</pose>
-	    <plugin name="swing" filename="libSwingPlugin.so"/>
+            <plugin name="swing" filename="libSwingPlugin.so"/>
         </include>
 
-	<include>
-            	<uri>model://gripper</uri>
-            	<pose>-0.390739 0.974266 1.131381 0 0 0</pose>
-        </include>
+        <!--<include>-->
+            <!--<uri>model://gripper</uri>-->
+            <!--<pose>-0.390739 0.974266 1.131381 0 0 0</pose>-->
+            <!--<plugin name="grip" filename="libGripPlugin.so"/>-->
+            <!--<plugin name="swing" filename="libSwingPlugin.so"/>-->
+            <!--<static>true</static>-->
+        <!--</include>-->
+
+        <plugin name="butter" filename="libButterFactoryPlugin.so">
+            <pose>-0.128 1.059 1.036 0 0 0</pose>
+            <size>3 2 3 0.005</size>
+        </plugin>
 
         <gui>
-		<camera name='user_camera'>
-			<pose>0.892691 1.54384 1.57989 -1.4918e-17 0.375643 -2.675</pose>
-			<view_controller>orbit</view_controller>
-		</camera>
+            <camera name='user_camera'>
+                <pose>0.892691 1.54384 1.57989 -1.4918e-17 0.375643 -2.675</pose>
+                <view_controller>orbit</view_controller>
+            </camera>
         </gui>
 
-	<plugin name="butter" filename="libButterFactoryPlugin.so">
-		<pose>-0.128 1.059 1.036 0 0 0</pose>
-		<size>3 2 3 0.005</size>
-	</plugin>
     </world>
 </sdf>

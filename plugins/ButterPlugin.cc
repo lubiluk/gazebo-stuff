@@ -1,5 +1,4 @@
 #include "ButterPlugin.hh"
-#include <vector>
 
 using namespace gazebo;
 
@@ -11,13 +10,7 @@ void ButterPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr /*_sdf*/) {
     this->world = this->model->GetWorld();
     this->physics = this->world->GetPhysicsEngine();
     this->node = transport::NodePtr(new transport::Node());
-
-    ////
-
     this->node->Init();
-
-
-    ////
 
     auto contactManager = this->physics->GetContactManager();
     auto filterName = this->model->GetScopedName() + "_contacts";
@@ -47,35 +40,14 @@ void ButterPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr /*_sdf*/) {
 }
 
 void ButterPlugin::OnUpdate(const common::UpdateInfo &_info) {
-    // Detach
-    auto it = this->joints.begin();
-    while (it != this->joints.end()) {
-        const auto &joint = (*it);
-
-        auto wrench = joint->GetForceTorque(0u);
-        auto measuredForce = wrench.body1Force;
-
-        double force = 0.5;
-        auto modelName = joint->GetChild()->GetModel()->GetName();
-
-        if (modelName == "knife") force = 5;
-
-        if (measuredForce.GetLength() > force) {
-            gzdbg << "Removed joint: " << joint->GetParent()->GetScopedName() << " -> " << joint->GetChild()->GetScopedName() << " (" << joint->GetName() << "), force:" << force << modelName << "\n";
-            joint->Detach();
-            it = this->joints.erase(it);
-        } else ++it;
-    }
-
-    // Attach
-
+    // Attach new joints
     std::lock_guard<std::mutex> lock(this->mutexContacts);
     for (const auto &contact : this->contacts) {
-        auto name1 = contact.collision1();
-        auto name2 = contact.collision2();
+        const auto name1 = contact.collision1();
+        const auto name2 = contact.collision2();
 
-        auto collision1 = boost::dynamic_pointer_cast<physics::Collision>(this->world->GetEntity(name1));
-        auto collision2 = boost::dynamic_pointer_cast<physics::Collision>(this->world->GetEntity(name2));
+        const auto collision1 = boost::dynamic_pointer_cast<physics::Collision>(this->world->GetEntity(name1));
+        const auto collision2 = boost::dynamic_pointer_cast<physics::Collision>(this->world->GetEntity(name2));
 
         // Get links involved in the contact
         // parentLink is a butter particle
@@ -84,7 +56,8 @@ void ButterPlugin::OnUpdate(const common::UpdateInfo &_info) {
         const auto &childLink = collision2->GetLink();
 
         // Check if any of the joints already connects both links
-        const bool anyConnected = std::any_of(this->joints.begin(), this->joints.end(),
+        // This seems not to work correctly
+        bool anyConnected = std::any_of(this->joints.begin(), this->joints.end(),
                                               [&parentLink, &childLink](physics::JointPtr &joint) {
                                                   return joint->AreConnected(parentLink, childLink);
                                               });
@@ -94,21 +67,17 @@ void ButterPlugin::OnUpdate(const common::UpdateInfo &_info) {
 
         // Create a joint
         // Create a joint for sticky particle (parent)
-        auto joint = this->physics->CreateJoint("revolute", this->model);
+        auto joint = this->physics->CreateJoint("fixed", this->model);
 
         // load the joint, and set up its anchor point
         joint->Load(parentLink, childLink, math::Pose());
         joint->Init();
 
-        // set the axis of revolution
-        joint->SetAxis(0, math::Vector3(0,0,1));
-        // Set limits to 0 - make the joint fixes
-        joint->SetHighStop(0, math::Angle::Zero);
-        joint->SetLowStop(0, math::Angle::Zero);
         // Enforce joint corrections
-        joint->SetAttribute("erp", 0, 1.0);
-        // Allow the joint to be elastic
-        joint->SetAttribute("cfm", 0, 1.0);
+//        joint->SetParam("erp", 0, 1.0);
+//        // Allow the joint to be elastic
+//        joint->SetParam("cfm", 0, 1.0);
+
         // Child link is scoped in order to ensure uniqueness
         std::string nameIndex = parentLink->GetName() + "_" + childLink->GetScopedName();
         joint->SetName("joint_" + nameIndex);
@@ -121,6 +90,33 @@ void ButterPlugin::OnUpdate(const common::UpdateInfo &_info) {
     }
 
     this->contacts.clear();
+
+    // Detach strained joints
+
+    auto it = this->joints.begin();
+    while (it != this->joints.end()) {
+        const auto &joint = (*it);
+
+        auto wrench = joint->GetForceTorque(0u);
+        auto measuredForce = wrench.body1Force;
+
+        auto force = 0.4;
+        auto modelName = joint->GetChild()->GetModel()->GetName();
+
+        // Temporary hack for testing
+        // Stickiness constant should be specified in link SDF
+        if (modelName == "knife") force = 5000000.0;
+
+        auto measuredForceLength = measuredForce.GetLength();
+
+        if (measuredForceLength > force) {
+            gzdbg << "Removed joint: " << joint->GetParent()->GetScopedName()
+                  << " -> " << joint->GetChild()->GetScopedName()
+                  << " (" << joint->GetName() << "), force: " << measuredForceLength << "\n";
+            joint->Detach();
+            it = this->joints.erase(it);
+        } else ++it;
+    }
 }
 
 void ButterPlugin::OnContacts(ConstContactsPtr &_msg)

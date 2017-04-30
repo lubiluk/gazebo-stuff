@@ -1,11 +1,11 @@
 <?xml version='1.0'?>
-<sdf version="1.4">
-<model name="knife">
+<sdf version='1.6'>
+<model name='knife'>
   <static>false</static>
   <pose>0 0 0 0 0 0</pose>
-    <link name="link">
+    <link name='link'>
       <inertial>
-        <mass>0.6</mass>
+        <mass>1</mass>
 	<pose>-0.04531253 -0.00064551 0.00026609 0 0 0</pose>
 	<inertia>
 		<ixx>0.0000000142090439</ixx>

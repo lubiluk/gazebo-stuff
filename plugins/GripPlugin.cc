@@ -26,9 +26,9 @@ void GripPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) {
     joint->SetHighStop(0, math::Angle::Zero);
     joint->SetLowStop(0, math::Angle::Zero);
     // Enforce joint corrections
-    joint->SetAttribute("erp", 0, 1.0);
+    joint->SetParam("erp", 0, 1.0);
     // Do not allow the joint to be elastic
-    joint->SetAttribute("cfm", 0, 0.0);
+    joint->SetParam("cfm", 0, 0.0);
     joint->SetDamping(0, 0.5);
     joint->SetName("joint_" + parentLink->GetScopedName() + "_" + childLink->GetScopedName());
 }

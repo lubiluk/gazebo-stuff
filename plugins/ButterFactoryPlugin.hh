@@ -7,7 +7,7 @@
 namespace gazebo {
     class ButterFactoryPlugin : public WorldPlugin {
         public: void Load(physics::WorldPtr parent, sdf::ElementPtr sdf) override;
-        private: std::string GetBreakableJointString(std::string linkName1, std::string linkName2, std::string force);
+        private: std::string GetJointString(std::string linkName1, std::string linkName2);
     };
 }
 
