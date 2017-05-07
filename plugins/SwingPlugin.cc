@@ -13,7 +13,7 @@ void SwingPlugin::Load(physics::ModelPtr parent, sdf::ElementPtr /*sdf*/)
 
     // create the animation
     gazebo::common::PoseAnimationPtr anim(
-            new gazebo::common::PoseAnimation("swing", 6.0, false));
+            new gazebo::common::PoseAnimation("swing", 8.0, false));
 
     gazebo::common::PoseKeyFrame *key;
 
@@ -28,20 +28,20 @@ void SwingPlugin::Load(physics::ModelPtr parent, sdf::ElementPtr /*sdf*/)
     // set waypoint location after 1 seconds
     key = anim->CreateKeyFrame(2.0);
     key->Translation(pos + ignition::math::Vector3d(0.0, 0.10, 0.0));
-    key->Rotation(rot);
+    key->Rotation(rot + ignition::math::Quaterniond(2, 0.0, 0.0));
 
 
     key = anim->CreateKeyFrame(4.0);
     key->Translation(pos + ignition::math::Vector3d(0.0, 0.15, 0.1));
-    key->Rotation(rot);
+    key->Rotation(rot + ignition::math::Quaterniond(2.0, 0.0, 0.0));
 
     key = anim->CreateKeyFrame(6.0);
-    key->Translation(pos + ignition::math::Vector3d(0.0, -0.20, 0.15));
-    key->Rotation(rot);
-//
-//        key = anim->CreateKeyFrame(8.0);
-//        key->SetTranslation(math::Vector3(-0.854600, 1.156014, 0.824962));
-//        key->SetRotation(math::Quaternion(3.136410, -0.519508, 0.002588));
+    key->Translation(pos + ignition::math::Vector3d(0.0, -0.35, 0.035));
+    key->Rotation(rot + ignition::math::Quaterniond(-3.3, 0.0, 0.0));
+
+    key = anim->CreateKeyFrame(8.0);
+    key->Translation(pos + ignition::math::Vector3d(-0.30, -0.35, 0.035));
+    key->Rotation(rot + ignition::math::Quaterniond(-3.3, 0.0, 0.0));
 
     // set the animation
     parent->SetAnimation(anim);

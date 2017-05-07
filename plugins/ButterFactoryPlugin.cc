@@ -38,8 +38,8 @@ void ButterFactoryPlugin::Load(physics::WorldPtr parent, sdf::ElementPtr sdf) {
     double zShift = -zlen * radius;
 
     // Force at which the butter particles should break apart
-    double mass = 0.005;
-    double inertiaDiagonal = 2.0 / 5.0 * mass * radius * radius;
+    double mass = radius * 2;
+    double inertiaDiagonal = 0.4 * mass * radius * radius;
 
     // Create links
     for (int i = 0; i < xlen; ++i) {
@@ -48,57 +48,55 @@ void ButterFactoryPlugin::Load(physics::WorldPtr parent, sdf::ElementPtr sdf) {
                 string index = to_string(i) + "_" + to_string(j) + "_" + to_string(k);
 
                 xml << "<link name='link_" << index << "'>"
-                        "<pose>"
-                    << radius * 2 * i + xShift << " "
-                    << radius * 2 * j + yShift << " "
-                    << radius * 2 * k + zShift << " 0 0 0"
+                            "<pose>"
+                                << radius * 2 * i + xShift << " "
+                                << radius * 2 * j + yShift << " "
+                                << radius * 2 * k + zShift << " 0 0 0"
                             "</pose>"
                             "<inertial>"
-                            "<mass>" << mass << "</mass>"
-                            "<inertia>"
-                            "<ixx>" << inertiaDiagonal << "</ixx>"
-                            "<ixy>0</ixy>"
-                            "<ixz>0</ixz>"
-                            "<iyy>" << inertiaDiagonal << "</iyy>"
-                            "<iyz>0</iyz>"
-                            "<izz>" << inertiaDiagonal << "</izz>"
-                            "</inertia>"
+                                "<mass>" << mass << "</mass>"
+                                "<inertia>"
+                                "<ixx>" << inertiaDiagonal << "</ixx>"
+                                "<ixy>0</ixy>"
+                                "<ixz>0</ixz>"
+                                "<iyy>" << inertiaDiagonal << "</iyy>"
+                                "<iyz>0</iyz>"
+                                "<izz>" << inertiaDiagonal << "</izz>"
+                                "</inertia>"
                             "</inertial>"
+                            "<velocity_decay>"
+                                "<angular>1</angular>"
+                                "<linear>0.9</linear>"
+                            "</velocity_decay>"
                             "<collision name ='collision_" << i << "_" << j << "_" << k << "'>"
-                            "<geometry>"
-                            "<sphere>"
-                            "<radius>" << radius << "</radius>"
-                            "</sphere>"
-                            "</geometry>"
-                            "<surface>"
-//                            "<friction>"
-//                            "<ode>"
-//                            "<mu>20</mu>"
-//                            "<mu2>20</mu2>"
-//                            "</ode>"
-//                            "</friction>"
-                            "<contact>"
-                            "<ode>"
-                            "<soft_cfm>0</soft_cfm>"
-                            "<soft_erp>0.8</soft_erp>"
-                            "</ode>"
-                            "</contact>"
-                            "</surface>"
+                                "<geometry>"
+                                    "<sphere>"
+                                        "<radius>" << radius << "</radius>"
+                                    "</sphere>"
+                                "</geometry>"
+                                "<surface>"
+                                    "<friction>"
+                                        "<ode>"
+                                            "<mu>0.5</mu>"
+                                            "<mu2>0.5</mu2>"
+                                        "</ode>"
+                                    "</friction>"
+                                "</surface>"
                             "</collision>"
                             "<visual name ='visual_" << index << "'>"
-                            "<geometry>"
-                            "<sphere>"
-                            "<radius>" << radius << "</radius>"
-                            "</sphere>"
-                            "</geometry>"
-                            "<material>"
-                            "<script>"
-                            "<uri>file://media/materials/scripts/gazebo.material</uri>"
-                            "<name>Gazebo/Yellow</name>"
-                            "</script>"
-                            "</material>"
+                                "<geometry>"
+                                    "<sphere>"
+                                        "<radius>" << radius << "</radius>"
+                                    "</sphere>"
+                                "</geometry>"
+                                "<material>"
+                                    "<script>"
+                                        "<uri>file://media/materials/scripts/gazebo.material</uri>"
+                                        "<name>Gazebo/Yellow</name>"
+                                    "</script>"
+                                "</material>"
                             "</visual>"
-                            "</link>";
+                        "</link>";
             }
         }
     }
@@ -107,23 +105,20 @@ void ButterFactoryPlugin::Load(physics::WorldPtr parent, sdf::ElementPtr sdf) {
     for (int i = 0; i < xlen; ++i) {
         for (int j = 0; j < ylen; ++j) {
             for (int k = 0; k < zlen; ++k) {
-                string current = to_string(i) + "_" + to_string(j) + "_" + to_string(k);
+                auto current = to_string(i) + "_" + to_string(j) + "_" + to_string(k);
 
                 if (i > 0) {
-                    string previous = to_string(i - 1) + "_" + to_string(j) + "_" + to_string(k);
-
+                    auto previous = to_string(i - 1) + "_" + to_string(j) + "_" + to_string(k);
                     xml << GetJointString(current, previous);
                 }
 
                 if (j > 0) {
-                    string previous = to_string(i) + "_" + to_string(j - 1) + "_" + to_string(k);
-
+                    auto previous = to_string(i) + "_" + to_string(j - 1) + "_" + to_string(k);
                     xml << GetJointString(current, previous);
                 }
 
                 if (k > 0) {
-                    string previous = to_string(i) + "_" + to_string(j) + "_" + to_string(k - 1);
-
+                    auto previous = to_string(i) + "_" + to_string(j) + "_" + to_string(k - 1);
                     xml << GetJointString(current, previous);
                 }
             }
@@ -143,15 +138,15 @@ void ButterFactoryPlugin::Load(physics::WorldPtr parent, sdf::ElementPtr sdf) {
 string ButterFactoryPlugin::GetJointString(string linkName1, string linkName2) {
     stringstream ss;
     ss << "<joint name='joint_" << linkName1 << "_" << linkName2 << "' type='fixed'>"
-            "<parent>link_" << linkName1 << "</parent>"
-               "<child>link_" << linkName2 << "</child>"
-               "<physics>"
-               "<ode>"
-               "<erp>0.8</erp>"
-               "<cfm>0</cfm>"
-               "</ode>"
-               "</physics>"
-               "</joint>";
+                "<parent>link_" << linkName1 << "</parent>"
+                "<child>link_" << linkName2 << "</child>"
+//                "<physics>"
+//                    "<ode>"
+//                    "<erp>0.8</erp>"
+//                    "<cfm>0</cfm>"
+//                    "</ode>"
+//                "</physics>"
+            "</joint>";
 
     return ss.str();
 }

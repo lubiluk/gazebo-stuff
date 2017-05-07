@@ -1,31 +1,35 @@
 <?xml version='1.0'?>
 <sdf version='1.6'>
-<model name='knife'>
-  <static>false</static>
-  <pose>0 0 0 0 0 0</pose>
-    <link name='link'>
-      <inertial>
-        <mass>1</mass>
-	<pose>-0.04531253 -0.00064551 0.00026609 0 0 0</pose>
-	<inertia>
-		<ixx>0.0000000142090439</ixx>
-		<ixy>-0.0000000250588730</ixy>
-		<ixz>0.0000000029316887</ixz>
-		<iyy>0.0000015154264648</iyy>
-		<iyz>-0.0000000000104608</iyz>
-		<izz>0.0000015195024414</izz>
-	</inertia>
-      </inertial>
-      <collision name='collision'>
-	      <geometry>
-		      <mesh><uri>model://knife/knife.dae</uri></mesh>
-	      </geometry>
-       </collision>
-       <visual name='visual'>
-		<geometry>
-		    <mesh><uri>model://knife/knife.dae</uri></mesh>
-		</geometry>
-	</visual>
-    </link>
-  </model>
+    <model name='knife'>
+        <static>false</static>
+        <pose>0 0 0 0 0 0</pose>
+        <link name='link'>
+            <!--<inertial>-->
+                <!--<mass>0.30</mass>-->
+                <!--<pose>-0.04531253 -0.00064551 0.00026609 0 0 0</pose>-->
+                <!--<inertia>-->
+                    <!--<ixx>3.11393020192130e-06</ixx>-->
+                    <!--<ixy>0.0</ixy>-->
+                    <!--<ixz>0.0</ixz>-->
+                    <!--<iyy>0.000203980703664912</iyy>-->
+                    <!--<iyz>0.0</iyz>-->
+                    <!--<izz>0.000204877893174758</izz>-->
+                <!--</inertia>-->
+            <!--</inertial>-->
+            <collision name='collision'>
+                <geometry>
+                    <mesh>
+                        <uri>model://knife/knife.dae</uri>
+                    </mesh>
+                </geometry>
+            </collision>
+            <visual name='visual'>
+                <geometry>
+                    <mesh>
+                        <uri>model://knife/knife.dae</uri>
+                    </mesh>
+                </geometry>
+            </visual>
+        </link>
+    </model>
 </sdf>

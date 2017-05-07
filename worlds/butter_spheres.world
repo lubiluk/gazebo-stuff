@@ -1,11 +1,23 @@
 <sdf version="1.4">
     <world name="default">
 
-        <physics type='ode'>
+        <physics type="ode">
             <max_step_size>0.001</max_step_size>
             <real_time_factor>1</real_time_factor>
             <real_time_update_rate>1000</real_time_update_rate>
-            <gravity>0 0 -9.8</gravity>
+            <ode>
+                <solver>
+                    <type>quick</type>
+                    <iters>70</iters>
+                    <sor>1.4</sor>
+                </solver>
+                <constraints>
+                    <cfm>0</cfm>
+                    <erp>1</erp>
+                    <contact_max_correcting_vel>0</contact_max_correcting_vel>
+                    <contact_surface_layer>0</contact_surface_layer>
+                </constraints>
+            </ode>
         </physics>
 
         <include>
@@ -19,11 +31,7 @@
         <include>
             <uri>model://table</uri>
             <pose>-0.071633 0.854817 0 0 0 -1.57694</pose>
-        </include>
-
-        <include>
-            <uri>model://bowl</uri>
-            <pose>-0.135836 0.721834 1.032507 -0.000026 -0.000068 0</pose>
+            <static>true</static>
         </include>
 
         <include>
@@ -41,8 +49,8 @@
         <!--</include>-->
 
         <plugin name="butter" filename="libButterFactoryPlugin.so">
-            <pose>-0.128 1.059 1.036 0 0 0</pose>
-            <size>3 2 3 0.005</size>
+            <pose>-0.128 1.059 1.04 0 0 0</pose>
+            <size>4 2 5 0.005</size>
         </plugin>
 
         <gui>

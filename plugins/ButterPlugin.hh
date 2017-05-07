@@ -34,6 +34,7 @@ namespace gazebo {
         private: physics::PhysicsEnginePtr physics;
         /// \brief Mutex used to protect reading/writing the contact message.
         public: std::mutex mutexContacts;
+        private: void PrintJoints();
     };
 }
 

@@ -17,18 +17,18 @@ void ButterPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr /*_sdf*/) {
 
     std::vector<std::string> collisionNames;
 
-    for (auto &link : this->model->GetLinks()) {
-        for (auto &collision : link->GetCollisions()) {
+    for (const auto &link : this->model->GetLinks()) {
+        for (const auto &collision : link->GetCollisions()) {
             collisionNames.push_back(collision->GetScopedName());
         }
     }
 
+    // Contact filter
     auto topic = contactManager->CreateFilter(filterName, collisionNames);
     this->contactSubscriber = this->node->Subscribe(topic, &ButterPlugin::OnContacts, this);
 
-    ////
-
-    for (auto &joint : this->model->GetJoints()) {
+    // Setup joints to report forces
+    for (const auto &joint : this->model->GetJoints()) {
         joint->SetProvideFeedback(true);
         this->joints.push_back(joint);
     }
@@ -40,11 +40,42 @@ void ButterPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr /*_sdf*/) {
 }
 
 void ButterPlugin::OnUpdate(const common::UpdateInfo &_info) {
-    // Attach new joints
+    static unsigned long jointCount = 0;
+
     std::lock_guard<std::mutex> lock(this->mutexContacts);
+
+    // Detach strained joints
+
+    // Ignore internal forces that may occur on scene settling
+    if (this->contacts.size() > 0) {
+        auto it = this->joints.begin();
+        while (it != this->joints.end()) {
+            const auto &joint = (*it);
+
+            auto wrench = joint->GetForceTorque(0u);
+            auto measuredForce = wrench.body1Force;
+
+            auto force = 0.04;
+
+            auto measuredForceLength = measuredForce.GetLength();
+
+            if (measuredForceLength > force) {
+                gzdbg << "Removed joint: " << joint->GetParent()->GetScopedName()
+                      << " -> " << joint->GetChild()->GetScopedName()
+                      << " (" << joint->GetName() << "), force: " << measuredForceLength << "\n";
+                joint->Detach();
+                it = this->joints.erase(it);
+            } else ++it;
+        }
+    }
+
+    // Attach new joints
+
     for (const auto &contact : this->contacts) {
         const auto name1 = contact.collision1();
         const auto name2 = contact.collision2();
+
+        const auto depth = contact.depth(0);
 
         const auto collision1 = boost::dynamic_pointer_cast<physics::Collision>(this->world->GetEntity(name1));
         const auto collision2 = boost::dynamic_pointer_cast<physics::Collision>(this->world->GetEntity(name2));
@@ -56,16 +87,16 @@ void ButterPlugin::OnUpdate(const common::UpdateInfo &_info) {
         const auto &childLink = collision2->GetLink();
 
         // Check if any of the joints already connects both links
-        // This seems not to work correctly
         bool anyConnected = std::any_of(this->joints.begin(), this->joints.end(),
-                                              [&parentLink, &childLink](physics::JointPtr &joint) {
-                                                  return joint->AreConnected(parentLink, childLink);
-                                              });
+                                        [&parentLink, &childLink](physics::JointPtr &joint) {
+                                            return joint->AreConnected(parentLink, childLink);
+                                        });
 
         // If not connected create a new joint from parent to child link
         if (anyConnected) continue;
 
         // Create a joint
+
         // Create a joint for sticky particle (parent)
         auto joint = this->physics->CreateJoint("fixed", this->model);
 
@@ -73,7 +104,7 @@ void ButterPlugin::OnUpdate(const common::UpdateInfo &_info) {
         joint->Load(parentLink, childLink, math::Pose());
         joint->Init();
 
-        // Enforce joint corrections
+//        // Enforce joint corrections
 //        joint->SetParam("erp", 0, 1.0);
 //        // Allow the joint to be elastic
 //        joint->SetParam("cfm", 0, 1.0);
@@ -91,31 +122,10 @@ void ButterPlugin::OnUpdate(const common::UpdateInfo &_info) {
 
     this->contacts.clear();
 
-    // Detach strained joints
-
-    auto it = this->joints.begin();
-    while (it != this->joints.end()) {
-        const auto &joint = (*it);
-
-        auto wrench = joint->GetForceTorque(0u);
-        auto measuredForce = wrench.body1Force;
-
-        auto force = 0.4;
-        auto modelName = joint->GetChild()->GetModel()->GetName();
-
-        // Temporary hack for testing
-        // Stickiness constant should be specified in link SDF
-        if (modelName == "knife") force = 5000000.0;
-
-        auto measuredForceLength = measuredForce.GetLength();
-
-        if (measuredForceLength > force) {
-            gzdbg << "Removed joint: " << joint->GetParent()->GetScopedName()
-                  << " -> " << joint->GetChild()->GetScopedName()
-                  << " (" << joint->GetName() << "), force: " << measuredForceLength << "\n";
-            joint->Detach();
-            it = this->joints.erase(it);
-        } else ++it;
+    if (jointCount != this->joints.size()) {
+        gzdbg << "Joints left: " << this->joints.size() << " - " << this->model->GetJointCount() << "\n";
+        this->PrintJoints();
+        jointCount = this->joints.size();
     }
 }
 
@@ -137,5 +147,13 @@ void ButterPlugin::OnContacts(ConstContactsPtr &_msg)
         }
 
         this->contacts.push_back(contact);
+    }
+}
+
+void ButterPlugin::PrintJoints() {
+    for (const auto &joint : this->joints) {
+        gzdbg << "Joint: " << joint->GetParent()->GetScopedName()
+                << " -> " << joint->GetChild()->GetScopedName()
+                << " (" << joint->GetName() << ")\n";
     }
 }
