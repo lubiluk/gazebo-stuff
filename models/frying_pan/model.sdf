@@ -3,7 +3,7 @@
     <model name='frying_pan'>
         <pose>0 0 0 0 0 0</pose>
         <link name='link'>
-            <pose>0 0 0.030898 3.13917 0.089645 -0.000217</pose>
+            <!--<pose>0 0 0.030898 3.13917 0.089645 -0.000217</pose>-->
             <!--<inertial>-->
                 <!--<mass>0.30</mass>-->
                 <!--<pose>-0.04531253 -0.00064551 0.00026609 0 0 0</pose>-->
@@ -29,12 +29,7 @@
                         <uri>model://frying_pan/model.dae</uri>
                     </mesh>
                 </geometry>
-                <material>
-                    <script>
-                        <name>Gazebo/DarkGrey</name>
-                        <uri>file://media/materials/scripts/gazebo.material</uri>
-                    </script>
-                </material>
+                
             </visual>
         </link>
     </model>

@@ -55,7 +55,7 @@ void ButterPlugin::OnUpdate(const common::UpdateInfo &_info) {
             auto wrench = joint->GetForceTorque(0u);
             auto measuredForce = wrench.body1Force;
 
-            auto force = 0.04;
+            auto force = 0.05;
 
             auto measuredForceLength = measuredForce.GetLength();
 
@@ -74,8 +74,6 @@ void ButterPlugin::OnUpdate(const common::UpdateInfo &_info) {
     for (const auto &contact : this->contacts) {
         const auto name1 = contact.collision1();
         const auto name2 = contact.collision2();
-
-        const auto depth = contact.depth(0);
 
         const auto collision1 = boost::dynamic_pointer_cast<physics::Collision>(this->world->GetEntity(name1));
         const auto collision2 = boost::dynamic_pointer_cast<physics::Collision>(this->world->GetEntity(name2));

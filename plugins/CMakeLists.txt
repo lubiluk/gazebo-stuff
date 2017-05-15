@@ -20,3 +20,9 @@ target_link_libraries(ButterPlugin ${GAZEBO_LIBRARIES})
 
 add_library(GripPlugin SHARED GripPlugin.cc)
 target_link_libraries(GripPlugin ${GAZEBO_LIBRARIES})
+
+add_library(StickPlugin SHARED StickPlugin.cc)
+target_link_libraries(StickPlugin ${GAZEBO_LIBRARIES})
+
+add_library(ScrapePlugin SHARED ScrapePlugin.cc)
+target_link_libraries(ScrapePlugin ${GAZEBO_LIBRARIES})
