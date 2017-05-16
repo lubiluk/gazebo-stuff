@@ -34,7 +34,7 @@ void StickPlugin::OnUpdate(const common::UpdateInfo &_info) {
 //          << wrench.body2Force.GetLength() << " "
 //          << wrench.body2Torque.GetLength() << " " << "\n";
 
-    auto force = 100.0;
+    auto force = 10000.0;
 
     auto measuredForceLength = measuredForce.GetLength();
 

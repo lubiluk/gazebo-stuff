@@ -38,11 +38,11 @@
             <plugin name="scrape" filename="libScrapePlugin.so"/>
         </include>
 
-        <include>
-            <uri>model://frying_pan</uri>
-            <pose>-0.131965 0.924513 1.048990 3.14 0.10 1.57</pose>
-            <static>true</static>
-        </include>
+        <!--<include>-->
+            <!--<uri>model://frying_pan</uri>-->
+            <!--<pose>-0.131965 0.924513 1.048990 3.14 0.10 1.57</pose>-->
+            <!--<static>true</static>-->
+        <!--</include>-->
 
 
         <include>
@@ -50,6 +50,10 @@
             <pose>-0.164298 0.981918 1.325094 0 0 0</pose>
             <plugin name="stick" filename="libStickPlugin.so"/>
         </include>
+
+        <plugin name="shpere_container_factory" filename="libShpereContainerFactoryPlugin.so">
+            <pose>-0.131965 0.924513 1.048990 0 0 0</pose>
+        </plugin>
 
         <gui>
             <camera name='user_camera'>

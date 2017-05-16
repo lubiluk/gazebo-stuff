@@ -26,3 +26,6 @@ target_link_libraries(StickPlugin ${GAZEBO_LIBRARIES})
 
 add_library(ScrapePlugin SHARED ScrapePlugin.cc)
 target_link_libraries(ScrapePlugin ${GAZEBO_LIBRARIES})
+
+add_library(ShpereContainerFactoryPlugin SHARED ShpereContainerFactoryPlugin.cc)
+target_link_libraries(ShpereContainerFactoryPlugin ${GAZEBO_LIBRARIES})
