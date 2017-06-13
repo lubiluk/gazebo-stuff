@@ -7,6 +7,7 @@
 #include <sstream>
 #include <cmath>
 #include <limits>
+#include <algorithm>
 
 using namespace std;
 
@@ -36,12 +37,18 @@ public:
 
 int main(int argc, char** argv)
 {
-    if (argc!=3) {
-        cout << "Usage: sph2sdf SOURCE DEST\n";
+    if (argc != 4) {
+        cout << "Usage: sph2sdf SOURCE DEST VISUAL\n";
+        return 0;
     }
 
     char* source = argv[1];
     char* dest = argv[2];
+    string visual(argv[3]);
+
+    std::transform(visual.begin(), visual.end(), visual.begin(), ::tolower);
+
+    bool generate_visual = (visual == "1" || visual == "true");
 
     ifstream source_file(source);
     ofstream dest_file(dest);
@@ -89,14 +96,16 @@ int main(int argc, char** argv)
                      "\t\t\t\t</geometry>\n"
                      "\t\t\t</collision>\n";
 
-        dest_file << "\t\t\t<visual name='visual_" << index << "'>\n"
-                     "\t\t\t\t<pose>" << x << " " << y << " " << z << " 0 0 0</pose>\n"
-                     "\t\t\t\t<geometry>\n"
-                     "\t\t\t\t\t<sphere>\n"
-                     "\t\t\t\t\t\t<radius>" << r << "</radius>\n"
-                     "\t\t\t\t\t</sphere>\n"
-                     "\t\t\t\t</geometry>\n"
-                     "\t\t\t</visual>\n";
+        if (generate_visual) {
+            dest_file << "\t\t\t<visual name='visual_" << index << "'>\n"
+                         "\t\t\t\t<pose>" << x << " " << y << " " << z << " 0 0 0</pose>\n"
+                         "\t\t\t\t<geometry>\n"
+                         "\t\t\t\t\t<sphere>\n"
+                         "\t\t\t\t\t\t<radius>" << r << "</radius>\n"
+                         "\t\t\t\t\t</sphere>\n"
+                         "\t\t\t\t</geometry>\n"
+                         "\t\t\t</visual>\n";
+        }
 
         index += 1;
     }

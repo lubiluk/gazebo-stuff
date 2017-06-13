@@ -1,6 +1,13 @@
 <?xml version='1.0'?>
 <sdf version='1.6'>
     <model name='knife'>
+	<plugin name="knife_position" filename="libgazebo_ros_p3d.so">
+                <frameName>world</frameName>
+                <bodyName>link</bodyName>
+                <topicName>odom</topicName>
+                <updateRate>30.0</updateRate>
+            </plugin>
+
         <static>false</static>
         <pose>0 0 0 0 0 0</pose>
         <link name='link'>

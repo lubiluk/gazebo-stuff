@@ -28,12 +28,12 @@ void SwingPlugin::Load(physics::ModelPtr parent, sdf::ElementPtr /*sdf*/)
     // set waypoint location after 1 seconds
     key = anim->CreateKeyFrame(2.0);
     key->Translation(pos + ignition::math::Vector3d(0.0, 0.07, 0.0));
-    key->Rotation(rot + ignition::math::Quaterniond(1.57, 0.0, 0.0));
+    key->Rotation(rot + ignition::math::Quaterniond(0.5, 0.0, 0.0));
 
 
     key = anim->CreateKeyFrame(4.0);
     key->Translation(pos + ignition::math::Vector3d(0.0, 0.07, 0.1));
-    key->Rotation(rot + ignition::math::Quaterniond(1.57, 0.0, 0.0));
+    key->Rotation(rot + ignition::math::Quaterniond(0.5, 0.0, 0.0));
 
     key = anim->CreateKeyFrame(6.0);
     key->Translation(pos + ignition::math::Vector3d(0.0, -0.35, 0.035));

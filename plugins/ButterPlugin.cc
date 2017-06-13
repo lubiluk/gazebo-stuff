@@ -55,7 +55,7 @@ void ButterPlugin::OnUpdate(const common::UpdateInfo &_info) {
             auto wrench = joint->GetForceTorque(0u);
             auto measuredForce = wrench.body1Force;
 
-            auto force = 0.05;
+            auto force = 5.0;
 
             auto measuredForceLength = measuredForce.GetLength();
 
@@ -140,9 +140,9 @@ void ButterPlugin::OnContacts(ConstContactsPtr &_msg)
                 this->world->GetEntity(contact.collision2()));
 
         // Temporarily stick only to the knife
-        if (collision1->GetModel()->GetName() != "knife" && collision2->GetModel()->GetName() != "knife") {
-            continue;
-        }
+//        if (collision1->GetModel()->GetName() != "knife" && collision2->GetModel()->GetName() != "knife") {
+//            continue;
+//        }
 
         this->contacts.push_back(contact);
     }

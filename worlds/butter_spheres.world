@@ -37,19 +37,17 @@
         <include>
             <uri>model://knife</uri>
             <pose>-0.305 0.974 1.082 -1.57746 0.148233 -0.000983</pose>
-            <plugin name="swing" filename="libSwingPlugin.so"/>
         </include>
 
-        <!--<include>-->
-            <!--<uri>model://gripper</uri>-->
-            <!--<pose>-0.390739 0.974266 1.131381 0 0 0</pose>-->
-            <!--<plugin name="grip" filename="libGripPlugin.so"/>-->
-            <!--<plugin name="swing" filename="libSwingPlugin.so"/>-->
-            <!--<static>true</static>-->
-        <!--</include>-->
+        <include>
+            <uri>model://gripper</uri>
+            <pose>-0.423582 0.974000 1.137179 0 0 0</pose>
+            <plugin name="grip" filename="libGripPlugin.so"/>
+            <plugin name="scrape" filename="libSwingPlugin.so"/>
+        </include>
 
         <plugin name="butter" filename="libButterFactoryPlugin.so">
-            <pose>-0.128 1.059 1.04 0 0 0</pose>
+            <pose>-0.127870 1.058302 1.044992 0 0 0</pose>
             <size>4 2 5 0.005</size>
         </plugin>
 

@@ -29,7 +29,6 @@
                         <uri>model://frying_pan/model.dae</uri>
                     </mesh>
                 </geometry>
-                
             </visual>
         </link>
     </model>
