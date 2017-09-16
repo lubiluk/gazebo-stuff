@@ -1,0 +1,35 @@
+<?xml version='1.0'?>
+<sdf version='1.6'>
+    <model name='simple_frying_pan'>
+        <pose>0 0 0 0 0 0</pose>
+        <link name='link'>
+            <pose>0 0 0 0 0 0</pose>
+            <inertial>
+                <mass>1</mass>
+                <pose>0.002625 0.0 0.01465 0 0 0</pose>
+                <inertia>
+                    <ixx>0.007971675</ixx>
+                    <iyy>0.008713309</iyy>
+                    <izz>0.016311566</izz>
+                    <ixy>-1.69694542e-019</ixy>
+                    <ixz>-0.000025788</ixz>
+                    <iyz>-6.28650663e-021</iyz>
+                </inertia>
+            </inertial>
+            <collision name='collision'>
+                <geometry>
+                    <mesh>
+                        <uri>model://simple_frying_pan/simple_frying_pan_1.dae</uri>
+                    </mesh>
+                </geometry>
+            </collision>
+            <visual name='visual'>
+                <geometry>
+                    <mesh>
+                        <uri>model://simple_frying_pan/simple_frying_pan_1.dae</uri>
+                    </mesh>
+                </geometry>
+            </visual>
+        </link>
+    </model>
+</sdf>
