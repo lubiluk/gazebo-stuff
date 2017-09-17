@@ -19,14 +19,14 @@
             <collision name='collision'>
                 <geometry>
                     <mesh>
-                        <uri>model://simple_frying_pan/simple_frying_pan_1.dae</uri>
+                        <uri>model://simple_frying_pan/mesh.dae</uri>
                     </mesh>
                 </geometry>
             </collision>
             <visual name='visual'>
                 <geometry>
                     <mesh>
-                        <uri>model://simple_frying_pan/simple_frying_pan_1.dae</uri>
+                        <uri>model://simple_frying_pan/mesh.dae</uri>
                     </mesh>
                 </geometry>
             </visual>

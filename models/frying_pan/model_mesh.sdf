@@ -4,29 +4,29 @@
         <pose>0 0 0 0 0 0</pose>
         <link name='link'>
             <!--<pose>0 0 0.030898 3.13917 0.089645 -0.000217</pose>-->
-            <!--<inertial>-->
-                <!--<mass>0.30</mass>-->
-                <!--<pose>-0.04531253 -0.00064551 0.00026609 0 0 0</pose>-->
-                <!--<inertia>-->
-                    <!--<ixx>3.11393020192130e-06</ixx>-->
-                    <!--<ixy>0.0</ixy>-->
-                    <!--<ixz>0.0</ixz>-->
-                    <!--<iyy>0.000203980703664912</iyy>-->
-                    <!--<iyz>0.0</iyz>-->
-                    <!--<izz>0.000204877893174758</izz>-->
-                <!--</inertia>-->
-            <!--</inertial>-->
+<!--            <inertial>-->
+<!--                <mass>0.30</mass>-->
+<!--                <pose>0.04531253 -0.00064551 0.00026609 0 0 0</pose>-->
+<!--                <inertia>-->
+<!--                    <ixx>3.11393020192130e-06</ixx>-->
+<!--                    <ixy>0.0</ixy>-->
+<!--                    <ixz>0.0</ixz>-->
+<!--                    <iyy>0.000203980703664912</iyy>-->
+<!--                    <iyz>0.0</iyz>-->
+<!--                    <izz>0.000204877893174758</izz>-->
+<!--                </inertia>-->
+<!--            </inertial>-->
             <collision name='collision'>
                 <geometry>
                     <mesh>
-                        <uri>model://frying_pan/model.dae</uri>
+                        <uri>model://frying_pan/model3.dae</uri>
                     </mesh>
                 </geometry>
             </collision>
             <visual name='visual'>
                 <geometry>
                     <mesh>
-                        <uri>model://frying_pan/model.dae</uri>
+                        <uri>model://frying_pan/model3.dae</uri>
                     </mesh>
                 </geometry>
             </visual>

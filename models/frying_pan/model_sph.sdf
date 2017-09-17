@@ -4,6 +4,19 @@
 	<static>false</static>
 	<pose>0 0 0 0 0 0</pose>
 		<link name='link'>
+      <inertial>
+        <mass>0.30</mass>
+        <pose>0.04531253 -0.00064551 0.00026609 0 0 0</pose>
+        <inertia>
+          <ixx>3.11393020192130e-06</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyy>0.000203980703664912</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.000204877893174758</izz>
+        </inertia>
+      </inertial>
+		
 			<visual name='visual'>
 				<geometry>
 					<mesh>
