@@ -1,6 +1,7 @@
 #include "StickPlugin.hh"
 
 #include <gazebo/physics/physics.hh>
+#include <string>
 
 using namespace gazebo;
 
@@ -11,12 +12,14 @@ void StickPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) {
     const auto parentModel = _parent;
     const auto world = parentModel->GetWorld();
     const auto physics = world->GetPhysicsEngine();
+    
+    const std::string link = _sdf->GetElement("link")->GetValue()->GetAsString();
 
     const auto parentLink = parentModel->GetLink("link");
-    const auto childLink = boost::dynamic_pointer_cast<physics::Link>(world->GetEntity("knife::link"));
+    const auto childLink = boost::dynamic_pointer_cast<physics::Link>(world->GetEntity(link));
 
     this->joint = physics->CreateJoint("fixed", parentModel);
-    this->joint->Load(parentLink, childLink, math::Pose());
+    this->joint->Load(parentLink, childLink, parentLink->GetWorldPose() - childLink->GetWorldPose());
     this->joint->Init();
     this->joint->SetProvideFeedback(true);
     this->joint->SetName("stick_joint_" + parentLink->GetScopedName() + "_" + childLink->GetScopedName());

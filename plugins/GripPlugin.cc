@@ -13,7 +13,7 @@ void GripPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) {
     const auto physics = world->GetPhysicsEngine();
 
     const auto parentLink = parentModel->GetLink("link");
-    const auto childModel = boost::dynamic_pointer_cast<physics::Model>(world->GetEntity("knife"));
+    const auto childModel = boost::dynamic_pointer_cast<physics::Model>(world->GetEntity("simple_knife"));
     const auto childLink = childModel->GetLink("link");
 
     const auto joint = physics->CreateJoint("revolute", parentModel);
