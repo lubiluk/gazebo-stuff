@@ -5,6 +5,18 @@
         <pose>0 0 0 0 0 0</pose>
         <link name='link'>
             <pose>0 0 0 0 0 0</pose>
+            <inertial>
+                <mass>0.01</mass>
+                <pose>0 0 0 0 0 0</pose>
+                <inertia>
+                    <ixx>0.0000004167</ixx>
+                    <iyy>0.0000008333</iyy>
+                    <izz>0.0000010833</izz>
+                    <ixy>0</ixy>
+                    <ixz>0</ixz>
+                    <iyz>0</iyz>
+                </inertia>
+            </inertial>
             <collision name='collision'>
                 <geometry>
                     <box>

@@ -5,7 +5,10 @@
         <pose>0 0 0 0 0 0</pose>
         <link name='link'>
             <pose>0 0 0 0 0 0</pose>
-            <kinematic>1</kinematic>
+            <inertial>
+                <mass>0</mass>
+            </inertial>
+            <kinematic>true</kinematic>
             <collision name='collision'>
                 <geometry>
                     <sphere>
