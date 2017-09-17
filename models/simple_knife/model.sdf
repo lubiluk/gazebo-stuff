@@ -1,0 +1,35 @@
+<?xml version='1.0'?>
+<sdf version='1.6'>
+    <model name='simple_knife'>
+        <pose>0 0 0 0 0 0</pose>
+        <link name='link'>
+            <pose>0 0 0 0 0 0</pose>
+            <inertial>
+                <mass>1</mass>
+                <pose>0.046265 0.0 -0.000161 0 0 0</pose>
+                <inertia>
+                    <ixx>0.0000518</ixx>
+                    <iyy>0.00305847</iyy>
+                    <izz>0.00304899</izz>
+                    <ixy>0.0</ixy>
+                    <ixz>-0.00000607</ixz>
+                    <iyz>0.0</iyz>
+                </inertia>
+            </inertial>
+            <collision name='collision'>
+                <geometry>
+                    <mesh>
+                        <uri>model://simple_knife/mesh.dae</uri>
+                    </mesh>
+                </geometry>
+            </collision>
+            <visual name='visual'>
+                <geometry>
+                    <mesh>
+                        <uri>model://simple_knife/mesh.dae</uri>
+                    </mesh>
+                </geometry>
+            </visual>
+        </link>
+    </model>
+</sdf>
