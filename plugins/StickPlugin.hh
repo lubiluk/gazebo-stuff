@@ -14,6 +14,7 @@ namespace gazebo {
     private:
         physics::JointPtr joint;
         event::ConnectionPtr updateConnection;
+        double forceThreshold;
     };
 }
 
