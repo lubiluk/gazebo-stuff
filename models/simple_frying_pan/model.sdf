@@ -22,6 +22,18 @@
                         <uri>model://simple_frying_pan/mesh.dae</uri>
                     </mesh>
                 </geometry>
+                <surface>
+                    <friction>
+                        <ode>
+                          <mu>0.4</mu>
+                          <mu2>0.4</mu2>
+                        </ode>
+                        <bullet>
+                            <friction>0.4</friction>
+                            <friction2>0.4</friction2>
+                        </bullet>
+                    </friction>
+                </surface>
             </collision>
             <visual name='visual'>
                 <geometry>
