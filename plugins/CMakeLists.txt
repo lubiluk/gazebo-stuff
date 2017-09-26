@@ -32,3 +32,6 @@ target_link_libraries(ShpereContainerFactoryPlugin ${GAZEBO_LIBRARIES})
 
 add_library(GrainsFactoryPlugin SHARED GrainsFactoryPlugin.cc)
 target_link_libraries(GrainsFactoryPlugin ${GAZEBO_LIBRARIES})
+
+add_library(BoxFactoryPlugin SHARED BoxFactoryPlugin.cc)
+target_link_libraries(BoxFactoryPlugin ${GAZEBO_LIBRARIES})
