@@ -1,0 +1,58 @@
+<?xml version='1.0'?>
+<sdf version='1.6'>
+    <model name='ladle'>
+        <static>false</static>
+        <pose>0 0 0 1.57079632679 0 0</pose>
+        <link name='link'>
+            <pose>0 0 0 0 0 0</pose>
+            <inertial>
+                <mass>0.01</mass>
+                <pose>-0.012176396154706 -0.000132104085343 -0.001143937015664 0 0 0</pose>
+                <inertia>
+                    <ixx>3.203277790557601e-06</ixx>
+                    <iyy>2.125554247666079e-04</iyy>
+                    <izz>2.094359977977182e-04</izz>
+                    <ixy>0</ixy>
+                    <ixz>0</ixz>
+                    <iyz>0</iyz>
+                </inertia>
+            </inertial>
+            
+            <collision name='collision'>
+                <pose>0 0 0 0 0 0</pose>
+                <geometry>
+                    <mesh>
+                        <uri>model://ladle/mesh.dae</uri>
+                    </mesh>
+                </geometry>
+                <surface>
+                    <friction>
+                        <ode>
+                            <mu>0.8</mu>
+                            <mu2>0.8</mu2>
+                        </ode>
+                        <bullet>
+                            <friction>0.8</friction>
+                            <friction2>0.8</friction2>
+                        </bullet>
+                    </friction>
+                </surface>
+            </collision>
+            <visual name='visual'>
+                <pose>0 0 0 0 0 0</pose>
+                <geometry>
+                    <mesh>
+                        <uri>model://ladle/mesh.dae</uri>
+                    </mesh>
+                </geometry>
+                <material>
+                    <script>
+                        <name>Gazebo/Blue</name>
+                        <uri>file://media/materials/scripts/gazebo.material</uri>
+                    </script>
+                </material>
+            </visual>
+            
+        </link>
+    </model>
+</sdf>
