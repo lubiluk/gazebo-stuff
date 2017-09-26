@@ -38,7 +38,7 @@ void BoxFactoryPlugin::Load(physics::WorldPtr _parent, sdf::ElementPtr _sdf) {
     xml << "<?xml version='1.0'?>"
            "<sdf version='1.6'>"
              "<model name='box'>"
-               "<static>false</static>"
+               "<static>" << isStatic << "</static>"
                "<pose>" << pose << "</pose>"
                "<link name='link'>"
                  "<pose>0 0 0 0 0 0</pose>"
