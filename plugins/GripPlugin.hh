@@ -1,7 +1,3 @@
-//
-// Created by lubiluk on 4/29/17.
-//
-
 #ifndef PLUGINS_GRIPPLUGIN_HH
 #define PLUGINS_GRIPPLUGIN_HH
 

@@ -24,4 +24,6 @@ void GripPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) {
     joint->Load(parentLink, childLink, parentLink->GetWorldPose() - childLink->GetWorldPose());
     joint->Init();
     joint->SetName("grip_joint_" + parentLink->GetScopedName() + "_" + childLink->GetScopedName());
+    
+    childLink->SetGravityMode(false);
 }

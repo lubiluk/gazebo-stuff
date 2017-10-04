@@ -13,6 +13,8 @@ namespace gazebo {
 
     private:
         physics::JointPtr joint;
+        physics::LinkPtr childLink;
+        physics::LinkPtr parentLink;
         event::ConnectionPtr updateConnection;
         double forceThreshold;
     };
