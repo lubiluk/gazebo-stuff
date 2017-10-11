@@ -8,18 +8,48 @@ using namespace gazebo;
 // Register this plugin with the simulator
 GZ_REGISTER_MODEL_PLUGIN(StickPlugin);
 
+StickPlugin::StickPlugin(): ModelPlugin(), joint(nullptr) {
+
+}
+
 void StickPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) {
-    const auto parentModel = _parent;
-    const auto world = parentModel->GetWorld();
-    const auto physics = world->GetPhysicsEngine();
+    this->model = _parent;
+    const auto world = this->model->GetWorld();
+    this->physics = world->GetPhysicsEngine();
     
-    const std::string link = _sdf->GetElement("link")->GetValue()->GetAsString();
-    _sdf->GetElement("force")->GetValue()->Get(this->forceThreshold);
+    const std::string childLinkName = _sdf->GetElement("childLinkName")->Get<std::string>();
+    const std::string parentLinkName = _sdf->GetElement("parentLinkName")->Get<std::string>();
+    this->forceThreshold = _sdf->GetElement("force")->Get<double>();
 
-    this->parentLink = parentModel->GetLink("link");
-    this->childLink = boost::dynamic_pointer_cast<physics::Link>(world->GetEntity(link));
+    this->parentLink = this->model->GetLink(parentLinkName);
+    this->childLink = boost::dynamic_pointer_cast<physics::Link>(world->GetEntity(childLinkName));
 
-    this->joint = physics->CreateJoint("fixed", parentModel);
+    this->CreateJoint();
+}
+
+void StickPlugin::OnUpdate(const common::UpdateInfo &_info) {
+    auto wrench = this->joint->GetForceTorque(0u);
+    auto measuredForce = wrench.body1Force;
+
+    auto force = this->forceThreshold;
+
+    auto measuredForceLength = measuredForce.GetLength();
+
+    if (measuredForceLength > force) {
+        gzdbg << "Removed joint: " << " (" << joint->GetName() << "), force: " << measuredForceLength << "\n";
+        
+        this->BreakJoint();
+    }
+}
+
+void StickPlugin::Reset() {
+    if (this->joint == nullptr) {
+        this->CreateJoint();
+    }
+}
+
+void StickPlugin::CreateJoint() {
+    this->joint = this->physics->CreateJoint("fixed", this->model);
     // Bullet physics needs accurate joint position
     // ODE does't care
     this->joint->Load(this->parentLink, this->childLink, this->parentLink->GetWorldPose() - this->childLink->GetWorldPose());
@@ -34,23 +64,14 @@ void StickPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) {
             boost::bind(&StickPlugin::OnUpdate, this, _1));
 }
 
-void StickPlugin::OnUpdate(const common::UpdateInfo &_info) {
-    auto wrench = this->joint->GetForceTorque(0u);
-    auto measuredForce = wrench.body1Force;
+void StickPlugin::BreakJoint() {
+    this->joint->Detach();
+    this->joint = nullptr;
+    
+    // Enable gravity on the childLink
+    this->parentLink->SetGravityMode(true);
 
-    auto force = this->forceThreshold;
-
-    auto measuredForceLength = measuredForce.GetLength();
-
-    if (measuredForceLength > force) {
-        gzdbg << "Removed joint: " << " (" << joint->GetName() << "), force: " << measuredForceLength << "\n";
-        this->joint->Detach();
-        this->joint = nullptr;
-        
-        // Enable gravity on the childLink
-        this->parentLink->SetGravityMode(true);
-
-        event::Events::DisconnectWorldUpdateBegin(this->updateConnection);
-        this->updateConnection = nullptr;
-    }
+    event::Events::DisconnectWorldUpdateBegin(this->updateConnection);
+    this->updateConnection = nullptr;
 }
+

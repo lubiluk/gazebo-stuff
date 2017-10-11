@@ -13,10 +13,11 @@ void GripPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) {
     const auto world = parentModel->GetWorld();
     const auto physics = world->GetPhysicsEngine();
 
-    const std::string link = _sdf->GetElement("link")->GetValue()->GetAsString();
+    const std::string childLinkName = _sdf->GetElement("childLinkName")->Get<std::string>();
+    const std::string parentLinkName = _sdf->GetElement("parentLinkName")->Get<std::string>();
 
-    const auto parentLink = parentModel->GetLink("link");
-    const auto childLink = boost::dynamic_pointer_cast<physics::Link>(world->GetEntity(link));
+    const auto parentLink = parentModel->GetLink(parentLinkName);
+    const auto childLink = boost::dynamic_pointer_cast<physics::Link>(world->GetEntity(childLinkName));
 
     const auto joint = physics->CreateJoint("fixed", parentModel);
     // Bullet physics needs accurate joint position
