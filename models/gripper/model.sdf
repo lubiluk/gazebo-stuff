@@ -3,24 +3,30 @@
     <model name='gripper'>
         <static>false</static>
         <allow_auto_disable>false</allow_auto_disable>
+        
         <pose>0 0 0 0 0 0</pose>
+        
         <link name='link'>
             <pose>0 0 0 0 0 0</pose>
             
             <inertial>
                 <mass>0.5</mass>
-                
             </inertial>
+            
+            <velocity_decay>
+              <linear>0.5</linear>
+              <angular>0.5</angular>
+            </velocity_decay>
 
             <gravity>false</gravity>
             
-            <collision name='collision'>
-                <geometry>
-                    <sphere>
-                        <radius>0.02</radius>
-                    </sphere>
-                </geometry>
-            </collision>
+<!--            <collision name='collision'>-->
+<!--                <geometry>-->
+<!--                    <sphere>-->
+<!--                        <radius>0.02</radius>-->
+<!--                    </sphere>-->
+<!--                </geometry>-->
+<!--            </collision>-->
             
             <visual name='visual'>
                 <geometry>

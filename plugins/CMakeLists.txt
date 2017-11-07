@@ -35,3 +35,6 @@ target_link_libraries(GrainsFactoryPlugin ${GAZEBO_LIBRARIES})
 
 add_library(BoxFactoryPlugin SHARED BoxFactoryPlugin.cc)
 target_link_libraries(BoxFactoryPlugin ${GAZEBO_LIBRARIES})
+
+add_library(PR2GripperGripPlugin SHARED PR2GripperGripPlugin.cc)
+target_link_libraries(PR2GripperGripPlugin ${GAZEBO_LIBRARIES})
