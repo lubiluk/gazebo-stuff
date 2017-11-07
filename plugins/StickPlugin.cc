@@ -28,6 +28,11 @@ void StickPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) {
 }
 
 void StickPlugin::OnUpdate(const common::UpdateInfo &_info) {
+    if (_info.simTime < 1.0) {
+      // Let the stage settle down and position objects
+      return;
+    }
+
     auto wrench = this->joint->GetForceTorque(0u);
     auto measuredForce = wrench.body1Force;
 
