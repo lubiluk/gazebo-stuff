@@ -12,11 +12,6 @@
             <inertial>
                 <mass>0.5</mass>
             </inertial>
-            
-            <velocity_decay>
-              <linear>0.5</linear>
-              <angular>0.5</angular>
-            </velocity_decay>
 
             <gravity>false</gravity>
             
