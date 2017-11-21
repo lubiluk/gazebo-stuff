@@ -4,7 +4,9 @@ project(Plugins)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
-find_package(gazebo REQUIRED)
+find_package(gazebo REQUIRED
+  SDFormat
+)
 include_directories(${GAZEBO_INCLUDE_DIRS})
 link_directories(${GAZEBO_LIBRARY_DIRS})
 list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS} -Wall")
