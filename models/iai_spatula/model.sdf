@@ -18,6 +18,11 @@
                 </inertia>
             </inertial>
             
+            <plugin name="tool_bumper" filename="libgazebo_ros_bumper.so">
+              <bumperTopicName>tool_contact_sensor_state</bumperTopicName>
+              <frameName>world</frameName>
+            </plugin>
+            
             <collision name='collision'>
                 <geometry>
                     <mesh>
