@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <sdf version='1.6'>
-    <model name='iai_big_bowl'>
+    <model name='b_big_bowl'>
         <static>false</static>
         <pose>0 0 0 0 0 0</pose>
         
@@ -21,7 +21,7 @@
             <collision name='collision'>
                 <geometry>
                     <mesh>
-                        <uri>model://iai_big_bowl/model.dae</uri>
+                        <uri>model://b_big_bowl/b_big_bowl.dae</uri>
                     </mesh>
                 </geometry>
                 <surface>
@@ -36,7 +36,7 @@
             <visual name='visual'>
                 <geometry>
                     <mesh>
-                        <uri>model://iai_big_bowl/model.dae</uri>
+                        <uri>model://b_big_bowl/b_big_bowl.dae</uri>
                     </mesh>
                 </geometry>
             </visual>
