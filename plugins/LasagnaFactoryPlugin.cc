@@ -62,9 +62,9 @@ void LasagnaFactoryPlugin::Load(physics::WorldPtr _parent, sdf::ElementPtr _sdf)
       spotProbability = _sdf->GetElement("spotProbability")->Get<double>();
     
     //
-    double xShift = -(size.x - 1) * radius;
-    double yShift = -(size.y - 1) * radius;
-    double zShift = -(size.z - 1) * radius;
+    double xShift = -(size.x - 1) / 2 * radius;
+    double yShift = -(size.y - 1) / 2 * radius;
+    double zShift = -(size.z - 1) / 2 * radius;
 //    double diameter = 2 * radius;
     double sphereMass = mass / (size.x * size.y * size.z);
 //    double inertiaDiagonal = 0.4 * sphereMass * radius * radius;
